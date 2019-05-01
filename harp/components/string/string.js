@@ -21,23 +21,11 @@ export default class String extends HTMLElement {
         MIDI.noteOff(0, note, 0.75);
     }
 
-    touchStarted() {
-        if(typeof AudioContext != "undefined" || typeof webkitAudioContext != "undefined") {
-            let resumeAudio = function() {
-                if(typeof g_WebAudioContext == "undefined" || g_WebAudioContext == null) return;
-                if(g_WebAudioContext.state == "suspended") g_WebAudioContext.resume();
-                document.removeEventListener("click", resumeAudio);
-            };
-            document.addEventListener("click", resumeAudio);
-        }
-    }
-
     stopStrum() {
         this.classList.remove('shake', 'shake-constant', 'shake-horizontal', 'shake-little');
     }
 
     connectedCallback() {
-        this.touchStarted();
         MIDI.loadPlugin({
             soundfontUrl: './',
             instrument: 'acoustic_grand_piano',
